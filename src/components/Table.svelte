@@ -33,6 +33,8 @@
     }
     selectedHeader = colHeader
   }
+
+  // TODO: Add filtering, pagination
 </script>
 
 <table class="table-desktop">

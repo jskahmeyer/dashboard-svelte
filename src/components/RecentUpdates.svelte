@@ -37,7 +37,7 @@
     'Michael Wilson placed a new order.',
   ]
 
-  let numPossibleProfilePics = 4
+  let numPossibleProfilePics = 9
 
   let recentUpdates = [
     {
