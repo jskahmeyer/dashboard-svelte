@@ -1,6 +1,6 @@
 <script>
   import { CustomersStore } from '../../store'
-  import CustomersForm from '../forms/CustomersForm.svelte'
+  import AddCustomerForm from '../forms/AddCustomerForm.svelte'
   import Card from '../Card.svelte'
   import Table from '../Table.svelte'
   import { getAllCustomers, deleteCustomer } from '../../firebase'
@@ -28,7 +28,7 @@
     <div class="form-container">
       <Card fullHeight={false}>
         <h2>Add New Customer</h2>
-        <CustomersForm />
+        <AddCustomerForm />
       </Card>
     </div>
   </div>

@@ -1,25 +1,61 @@
 <script>
+  import { isPositiveNumber } from '../../utils'
   import { addProduct } from '../../firebase'
 
   let product_name
   let price
   let category
   let stock
-  let success
+  let success = false
+
+  let productNameError = ''
+  let priceError = ''
+  let categoryError = ''
+  let stockError = ''
 
   async function handleSubmit() {
+    productNameError = ''
+    priceError = ''
+    categoryError = ''
+    stockError = ''
+
+    if(!product_name) {
+      productNameError = 'Product Name is required'
+    }
+
+    if(!price) {
+      priceError = 'Price is required';
+    } else if (!isPositiveNumber(price)) {
+      priceError = 'Price must be a positive number'
+    }
+
+    if(!category){
+      categoryError = 'Category is required'
+    }
+
+    if(!stock) {
+      stockError = 'Stock is required'
+    }
+
+
+
+    if (productNameError || priceError || categoryError || stockError) {
+      return;
+    }
+
     const newProduct = {
       product_name,
-      price,
+      price: parseFloat(price),
       category,
       stock,
     }
+
 
     try {
       addProduct(newProduct)
       success = true
     } catch {
-      console.error('Error adding new order')
+      console.error('Error adding new product')
     }
 
     product_name = ''
@@ -38,9 +74,10 @@
     type="text"
     placeholder="Product Name"
     bind:value={product_name}
+    class={productNameError && 'error'}
   />
   <select
-    class="styled-select"
+    class="styled-select {categoryError && 'error'}"
     bind:value={category}
     name="category"
     id="category"
@@ -52,7 +89,7 @@
     <option value="toys">Toys</option>
   </select>
   <select
-    class="styled-select"
+    class="styled-select {stockError && 'error'}"
     bind:value={stock}
     name="stock"
     id="stock"
@@ -66,16 +103,27 @@
     type="number"
     step="0.01"
     placeholder="Price"
+    class={priceError && 'error'}
   />
   <div class="bottom">
     <button type="submit">Submit</button>
-    {#if success}
-      <span class="success">Product Created!</span>
-    {/if}
   </div>
 </form>
+<div class="form-message-container">
+  {#if success}
+    <span class="success">Product Created!</span>
+  {/if}
+  {#if productNameError}<span class="error">{productNameError}</span>{/if}
+  {#if priceError}<span class="error">{priceError}</span>{/if}
+  {#if categoryError}<span class="error">{categoryError}</span>{/if}
+  {#if stockError}<span class="error">{stockError}</span>{/if}
+</div>
 
 <style>
+  button[type="submit"]{
+    margin-top: 10px;
+  }
+
   .bottom {
     display: flex;
     position: relative;

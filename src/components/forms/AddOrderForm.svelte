@@ -1,4 +1,5 @@
 <script>
+  import { isEmail } from '../../utils'
   import { addOrder } from '../../firebase'
 
   let name
@@ -6,14 +7,60 @@
   let order_total
   let items
   let status
-  let success
+  let success = false
+
+  let nameError = '';
+  let emailError = '';
+  let orderTotalError = '';
+  let itemsError = '';
+  let statusError = '';
 
   async function handleSubmit() {
+    nameError = '';
+    emailError = '';
+    orderTotalError = '';
+    itemsError = '';
+    statusError = '';
+
+    if (!name) {
+      nameError = 'Name is required';
+    }
+
+    if (!isEmail(email)) {
+      emailError = 'Valid email is required';
+    }
+
+    if (!order_total) {
+      orderTotalError = 'Order Total is required';
+    } else if (isNaN(order_total)) {
+      orderTotalError = 'Order Total must be a number';
+    }
+
+    if (!items) {
+      itemsError = 'Items is required';
+    } else if (isNaN(items)) {
+      itemsError = 'Items must be a number';
+    }
+
+    if (!status) {
+      statusError = 'Status is required';
+    }
+
+    if (
+      nameError ||
+      emailError ||
+      orderTotalError ||
+      itemsError ||
+      statusError
+    ) {
+      return;
+    }
+
     const newOrder = {
       name,
       email,
-      order_total,
-      items,
+      order_total: parseFloat(order_total),
+      items: parseInt(items),
       status,
     }
 
@@ -41,29 +88,33 @@
     type="text"
     placeholder="Customer Name"
     bind:value={name}
+    class={nameError && 'error'}
   />
   <input
     type="email"
     placeholder="Customer Email"
     bind:value={email}
+    class={emailError && 'error'}
   />
   <input
     type="number"
     step="0.01"
     placeholder="Order Total"
     bind:value={order_total}
+    class={orderTotalError && 'error'}
   />
   <input
     type="number"
     step="1"
     placeholder="Items"
     bind:value={items}
+    class={itemsError && 'error'}
   />
   <select
-    class="styled-select"
+    class="styled-select {statusError && 'error'}"
     bind:value={status}
-    name="category"
-    id="category"
+    name="status"
+    id="status"
   >
     <option value="">Order Status</option>
     <option value="processing">Processing</option>
@@ -73,13 +124,24 @@
   </select>
   <div class="bottom">
     <button type="submit">Submit</button>
-    {#if success}
-      <span class="success">Order Created!</span>
-    {/if}
   </div>
 </form>
+<div class="form-message-container">
+  {#if success}
+    <span class="success">Order Created!</span>
+  {/if}
+  {#if nameError}<span class="error">{nameError}</span>{/if}
+  {#if emailError}<span class="error">{emailError}</span>{/if}
+  {#if orderTotalError}<span class="error">{orderTotalError}</span>{/if}
+  {#if itemsError}<span class="error">{itemsError}</span>{/if}
+  {#if statusError}<span class="error">{statusError}</span>{/if}
+</div>
 
 <style>
+    button[type="submit"]{
+    margin-top: 10px;
+  }
+
   .bottom {
     display: flex;
     position: relative;

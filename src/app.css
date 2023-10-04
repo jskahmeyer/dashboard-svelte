@@ -10,6 +10,7 @@
   --success: #41f1b6;
   --success-dark: #0a8e62;
   --success-light: #a0f7da;
+  --success-extra-light: #cffbec;
   --warning: #ffbb55;
   --warning-dark: #aa6500;
   --warning-light: #ffdca9;
@@ -102,6 +103,38 @@ small {
   font-weight: 700;
   width: 3px;
   color: var(--primary);
+}
+
+.form-message-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 10px;
+}
+
+input.error, 
+select.error {
+  border: 1px solid var(--danger-dark) !important;
+}
+
+span.error {
+  background-color: var(--danger-light);
+  color: var(--danger-dark);
+  border: 1px solid var(--danger-dark);
+  border-radius: 8px;
+  padding: 5px;
+  display: inline-block;
+  margin: 6px;
+}
+
+span.success {
+  background-color: var(--success-extra-light);
+  color: var(--success-dark);
+  border: 1px solid var(--success-dark);
+  border-radius: 8px;
+  padding: 5px;
+  display: inline-block;
+  margin: 6px;
 }
 
 .profile-photo {

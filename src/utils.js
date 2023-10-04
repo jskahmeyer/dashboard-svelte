@@ -1,3 +1,12 @@
+export function isEmail(value) {
+	const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+	return emailRegex.test(value);
+}
+
+export function isPositiveNumber(value) {
+	return value > 0
+}
+
 export function tooltip(node, params) {
 	node.classList.add('tooltip');
 	node.setAttribute('tabindex', 0);
