@@ -59,7 +59,8 @@
 
   const addRandomUpdate = () => {
     const randomIndex = Math.floor(Math.random() * possibleUpdates.length)
-    const randomPicIndex = Math.floor(Math.random() * numPossibleProfilePics)
+    const randomPicIndex = Math.floor(Math.random() * numPossibleProfilePics) + 1
+    console.log(randomPicIndex)
     const randomUpdate = {
       message: possibleUpdates[randomIndex],
       profilePic: `profile-${randomPicIndex}.jpg`,
@@ -76,7 +77,6 @@
 
   function timeSince(timestamp) {
     const now = new Date()
-    // @ts-ignore
     const seconds = Math.floor((now - timestamp) / 1000)
 
     if (seconds < 60) {
